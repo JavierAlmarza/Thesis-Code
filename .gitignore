@@ -1,0 +1,20 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+.venv
+env/
+venv/
+*.ipynb_checkpoints
+
+# --- MATLAB ---
+*.asv
+*.m~
+*.mat
+*.mex*
+slprj/
+
+# --- OS Junk ---
+.DS_Store
+Thumbs.db

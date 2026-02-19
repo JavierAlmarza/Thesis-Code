@@ -1,0 +1,85 @@
+
+\documentclass[11pt]{article}
+
+\usepackage{graphicx,latexsym,amsfonts,graphicx}
+\usepackage[usenames]{color}
+\usepackage{calc}
+\usepackage{verbatim}
+\usepackage[mathcal]{euscript} 
+\usepackage{subfig}
+\usepackage{multicol}
+\usepackage{geometry}
+\geometry{verbose,tmargin=15mm,bmargin=15mm,lmargin=15mm,rmargin=15mm}
+
+\usepackage{amssymb}
+\usepackage{mathtools} %to use \dcase
+\usepackage{url}
+
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\eps}{\ensuremath{\varepsilon}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\be}{\begin{eqnarray}}
+\newcommand{\ee}{\end{eqnarray}}
+\newcommand{\nn}{\nonumber}
+\newcommand{\sign}{\mathrm{sign}}
+\newcommand{\lapl}{\mathcal{L}}
+\newcommand{\LL}{\mathcal{L}}
+\newcommand{\FF}{ \mathcal{F}}
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\EE}{\mathbb{E}}
+\newcommand{\TT}{\mathcal{T}}
+\newcommand{\vs}{\vspace{.1in}\noindent}
+\newcommand{\RRe}{\mathrm{Re}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\indep}{\perp \!\!\! \perp}
+\newcommand*{\defeq}{\stackrel{\text{def}}{=}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+
+\title{Notes on the implementation}
+
+\begin{document}
+
+\maketitle
+
+\section{The Matlab codes}
+
+In the newest version of the code, we run 
+
+{\bf Run\_OTBP},
+
+\noindent
+a sort of macro code that runs the others.
+%
+We specify in {\bf Run\_OTBP} the number of samples $m$, and {\bf data\_case}, the data to use. 
+
+\medskip
+
+{\bf Run\_OTBP} first runs
+%
+{\bf Create\_Data,} which generates $m$ pairs $(x_i, z_i)$ from the corresponding data\_case. The $z$ are given as cells, since they can have any type, specified in the variable $\hbox{type}_v$. 
+
+\medskip
+
+Then we specify {\bf N\_runs}, the number of barycenter problems to solve in a row, as well as parameters for each run, such as number of penalty terms, subsets of variables and external functions to use. Some defaults are provided, else one can create one's own combination. A few tunable parameters are included, mostly the $\gamma_z$ and $\gamma_y$, that one can adjust (currently manually looking at the results, eventually through cross-validation.)
+\medskip
+
+\noindent
+Then, in a loop over the {\bf N\_runs} runs, we run {\bf OTBP}, the main code for the barycenter problem, which implements the algorithm.
+
+\medskip
+
+\noindent
+After that, we can run
+{\bf Plot\_Results,} which displays the evolution of the run and the barycenter found. 
+
+\medskip
+
+Finally, we are asked for values of $z_*$ for which to simulate $\rho(x|z)$, a simulation that the code implements by inverting in reverse order each of the N\_runs barycenter problems, though the function
+{\bf Invert}.
+
+
+\end{document}
